@@ -270,14 +270,19 @@
         <div class="row">
           <label for="achat">Prix d’achat (€ HT)</label>
           <div class="input-wrapper">
-            <input type="text" id="achat" value="1000" />
+            <input type="text" id="achat" value="1000" inputmode="decimal" />
             <span class="unit-tag">€</span>
           </div>
         </div>
         <div class="row">
           <label for="margeInput">Marge</label>
           <div class="input-wrapper">
-            <input type="text" id="margeInput" placeholder="45" />
+            <input
+              type="text"
+              id="margeInput"
+              placeholder="45"
+              inputmode="decimal"
+            />
             <span class="unit-tag">%</span>
             <span class="symbol check" id="checkMarge">✔</span>
             <span class="symbol approx" id="approxMarge">≈</span>
@@ -286,7 +291,12 @@
         <div class="row">
           <label for="coefInput">Coef.</label>
           <div class="input-wrapper">
-            <input type="text" id="coefInput" placeholder="1.82" />
+            <input
+              type="text"
+              id="coefInput"
+              placeholder="1.82"
+              inputmode="decimal"
+            />
             <span class="symbol check" id="checkCoef">✔</span>
             <span class="symbol approx" id="approxCoef">≈</span>
           </div>
@@ -304,7 +314,7 @@
         <div class="row">
           <label for="remise">Remise accordée</label>
           <div class="input-wrapper">
-            <input type="text" id="remise" value="10" />
+            <input type="text" id="remise" value="10" inputmode="decimal" />
             <span class="unit-tag">%</span>
           </div>
         </div>
@@ -453,7 +463,6 @@ _Calculateur Le CRI_`;
               text: text,
             });
           } catch (err) {
-            // En cas d'erreur ou d'annulation sur certains navigateurs
             copierTexte(text);
           }
         } else {
