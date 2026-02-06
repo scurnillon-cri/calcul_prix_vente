@@ -2,8 +2,11 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculateur de prix – Le CRI</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Calculateur Le CRI</title>
 
     <style>
       :root {
@@ -12,7 +15,6 @@
         --cri-bg: #f1f5f9;
         --cri-border: #e2e8f0;
         --text-dark: #0f172a;
-        --text-soft: #64748b;
         --input-bg: #f8fafc;
       }
 
@@ -23,150 +25,107 @@
 
       body {
         margin: 0;
-        font-family:
-          "Inter",
-          system-ui,
-          -apple-system,
-          sans-serif;
+        font-family: "Inter", system-ui, sans-serif;
         background: var(--cri-bg);
-        min-height: 100vh;
+        color: var(--text-dark);
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 40px 20px;
-        color: var(--text-dark);
+        padding: 10px;
       }
 
       .main-header {
         width: 100%;
-        max-width: 500px;
-        background-color: var(--cri-navy);
+        max-width: 450px;
+        background: var(--cri-navy);
         color: white;
-        padding: 25px;
-        border-radius: 16px 16px 0 0;
+        padding: 15px;
+        border-radius: 12px 12px 0 0;
         text-align: center;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       }
 
       .main-header h1 {
         margin: 0;
-        font-size: 1.4rem;
-        letter-spacing: 1px;
+        font-size: 1.1rem;
         text-transform: uppercase;
-        font-weight: 800;
-      }
-      .main-header p {
-        margin: 8px 0 0;
-        opacity: 0.8;
-        font-size: 0.85rem;
+        letter-spacing: 1px;
       }
 
       .container {
         width: 100%;
-        max-width: 500px;
+        max-width: 450px;
         background: white;
-        border-radius: 0 0 16px 16px;
-        padding: 30px 40px;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--cri-border);
-        border-top: none;
-      }
-
-      .section {
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 1px dashed var(--cri-border);
-      }
-      .section:last-of-type {
-        border-bottom: none;
-        margin-bottom: 0;
+        border-radius: 0 0 12px 12px;
+        padding: 15px 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       }
 
       .section-title {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--cri-blue);
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--cri-navy);
+        text-align: center;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        margin: 15px 0 10px 0;
+        border-bottom: 1px solid var(--cri-bg);
+        padding-bottom: 5px;
       }
 
       .row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 14px;
+        justify-content: space-between;
+        margin-bottom: 8px;
         gap: 10px;
       }
+
       label {
-        font-size: 0.95rem;
-        font-weight: 500;
+        font-size: 0.85rem;
+        font-weight: 600;
         color: var(--text-dark);
         flex: 1;
       }
 
       .input-wrapper {
         position: relative;
-        width: 140px;
+        width: 120px;
         display: flex;
         align-items: center;
-      }
-
-      .unit-tag {
-        position: absolute;
-        right: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text-soft);
-        pointer-events: none;
       }
 
       input,
       .result {
         width: 100%;
-        padding: 10px 30px 10px 14px;
+        padding: 8px 10px;
         text-align: right;
-        border-radius: 8px;
-        font-family: inherit;
+        border-radius: 6px;
         font-weight: 700;
-        font-size: 1rem;
-        transition: all 0.2s ease;
+        font-size: 0.9rem;
+        border: 1px solid var(--cri-border);
       }
 
       input {
-        border: 1px solid var(--cri-border);
         background: var(--input-bg);
         color: var(--cri-navy);
-      }
-      input:focus {
-        outline: none;
-        border-color: var(--cri-blue);
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
       }
 
       .result-main {
         background: var(--cri-navy);
         color: white;
         border: none;
-        padding-right: 14px;
       }
       .result-soft {
-        background: #f1f5f9;
+        background: var(--cri-bg);
         color: var(--cri-navy);
-        border: 1px solid var(--cri-border);
-        padding-right: 14px;
+        border: none;
       }
 
+      /* Indicateurs de calcul (petits symboles) */
       .symbol {
         position: absolute;
-        left: calc(100% + 8px);
-        font-size: 14px;
+        left: -18px;
+        font-size: 10px;
         opacity: 0;
-        transition: opacity 0.3s;
       }
       .symbol.active {
         opacity: 1;
@@ -175,33 +134,32 @@
         color: #22c55e;
       }
       .approx {
-        color: var(--text-soft);
+        color: #94a3b8;
       }
 
       .action-area {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-top: 25px;
-      }
-      .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         gap: 8px;
-        padding: 12px;
-        border-radius: 8px;
-        font-size: 0.85rem;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
         font-weight: 700;
         cursor: pointer;
         border: none;
-        transition: all 0.2s;
-        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
       }
+
       .btn-share {
-        background: #f1f5f9;
+        background: #e2e8f0;
         color: var(--cri-navy);
-        border: 1px solid var(--cri-border);
       }
       .btn-send {
         background: var(--cri-blue);
@@ -209,150 +167,104 @@
       }
 
       .footer {
-        margin-top: 30px;
+        margin-top: 15px;
         text-align: center;
-      }
-      .footer-brand {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--cri-navy);
-      }
-      .footer-links {
-        margin-top: 12px;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        font-size: 0.8rem;
-      }
-      .footer-links a {
-        color: var(--cri-blue);
-        text-decoration: none;
-        font-weight: 600;
-      }
-
-      @media (max-width: 480px) {
-        .main-header,
-        .container {
-          width: 100%;
-          border-radius: 0;
-        }
-        .row {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 6px;
-        }
-        .input-wrapper {
-          width: 100%;
-        }
-        input,
-        .result {
-          text-align: left;
-        }
-        .symbol {
-          display: none;
-        }
-        .action-area {
-          grid-template-columns: 1fr;
-        }
+        font-size: 0.7rem;
+        opacity: 0.6;
       }
     </style>
   </head>
 
   <body>
     <div class="main-header">
-      <h1>📘 CALCULATEUR DE PRIX</h1>
-      <p>Référentiel par Produit & Aide au Chiffrage</p>
+      <h1>CALCULATEUR DE PRIX</h1>
     </div>
 
     <div class="container">
-      <div class="section">
-        <div class="section-title">📊 Prix d'annonce</div>
-        <div class="row">
-          <label for="achat">Prix d’achat (€ HT)</label>
-          <div class="input-wrapper">
-            <input type="text" id="achat" value="1000" inputmode="decimal" />
-            <span class="unit-tag">€</span>
-          </div>
-        </div>
-        <div class="row">
-          <label for="margeInput">Marge</label>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="margeInput"
-              placeholder="45"
-              inputmode="decimal"
-            />
-            <span class="unit-tag">%</span>
-            <span class="symbol check" id="checkMarge">✔</span>
-            <span class="symbol approx" id="approxMarge">≈</span>
-          </div>
-        </div>
-        <div class="row">
-          <label for="coefInput">Coef.</label>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="coefInput"
-              placeholder="1.82"
-              inputmode="decimal"
-            />
-            <span class="symbol check" id="checkCoef">✔</span>
-            <span class="symbol approx" id="approxCoef">≈</span>
-          </div>
-        </div>
-        <div class="row">
-          <label>Prix d'annonce conseillé</label>
-          <div class="input-wrapper">
-            <div class="result result-main" id="prixAnnonce">0.00 €</div>
-          </div>
+      <div class="section-title">📊 PRIX D'ANNONCE</div>
+
+      <div class="row">
+        <label>Prix d'achat HT</label>
+        <div class="input-wrapper">
+          <input type="text" id="achat" value="1000" inputmode="decimal" />
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">🤝 Négociation</div>
-        <div class="row">
-          <label for="remise">Remise accordée</label>
-          <div class="input-wrapper">
-            <input type="text" id="remise" value="10" inputmode="decimal" />
-            <span class="unit-tag">%</span>
-          </div>
+      <div class="row">
+        <label>Marge (%)</label>
+        <div class="input-wrapper">
+          <span class="symbol check" id="checkMarge">✔</span>
+          <input
+            type="text"
+            id="margeInput"
+            placeholder="45"
+            inputmode="decimal"
+          />
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">💰 Résultat de la vente</div>
-        <div class="row">
-          <label>Marge</label>
-          <div class="input-wrapper">
-            <div class="result result-soft" id="margeFinale">0 %</div>
-          </div>
+      <div class="row">
+        <label>Coef.</label>
+        <div class="input-wrapper">
+          <span class="symbol check" id="checkCoef">✔</span>
+          <input
+            type="text"
+            id="coefInput"
+            placeholder="1.82"
+            inputmode="decimal"
+          />
         </div>
-        <div class="row">
-          <label>Coef. réel</label>
-          <div class="input-wrapper">
-            <div class="result result-soft" id="coefFinal">0.00</div>
-          </div>
+      </div>
+
+      <div class="row">
+        <label>Prix d'annonce</label>
+        <div class="input-wrapper">
+          <div class="result result-main" id="prixAnnonce">0.00 €</div>
         </div>
-        <div class="row">
-          <label>Prix de vente</label>
-          <div class="input-wrapper">
-            <div class="result result-main" id="prixVente">0.00 €</div>
-          </div>
+      </div>
+
+      <div class="section-title">🤝 NÉGOCIATION</div>
+
+      <div class="row">
+        <label>Remise (%)</label>
+        <div class="input-wrapper">
+          <input type="text" id="remise" value="10" inputmode="decimal" />
+        </div>
+      </div>
+
+      <div class="section-title">💰 RÉSULTAT DE LA VENTE</div>
+
+      <div class="row">
+        <label>Marge (%)</label>
+        <div class="input-wrapper">
+          <div class="result result-soft" id="margeFinale">0 %</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Coef. réel</label>
+        <div class="input-wrapper">
+          <div class="result result-soft" id="coefFinal">0.00</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Prix de vente HT</label>
+        <div class="input-wrapper">
+          <div class="result result-main" id="prixVente">0.00 €</div>
         </div>
       </div>
 
       <div class="action-area">
-        <button class="btn btn-share" onclick="partagerOutil()">
-          🔗 Partager l'outil
-        </button>
+        <button class="btn btn-share" onclick="partagerOutil()">🔗 Lien</button>
         <button class="btn btn-send" onclick="transmettreResultats()">
           📤 Transmettre
         </button>
       </div>
 
       <div class="footer">
-        <div class="footer-brand">Powered by Le CRI</div>
+        <div class="footer-brand">👉 Powered by Le CRI 👈</div>
+        <span class="footer-sub">Le Club des Revendeurs Installateurs</span>
         <div class="footer-links">
           <a href="mailto:contact@cri-leclub.com">Contact</a>
           <a href="https://www.linkedin.com/company/cri-leclub/" target="_blank"
@@ -375,8 +287,6 @@
         resCoefFinal: document.getElementById("coefFinal"),
         checkMarge: document.getElementById("checkMarge"),
         checkCoef: document.getElementById("checkCoef"),
-        approxMarge: document.getElementById("approxMarge"),
-        approxCoef: document.getElementById("approxCoef"),
       };
 
       function cleanValue(val) {
@@ -387,9 +297,7 @@
       function updateUI(s) {
         source = s;
         el.checkMarge.classList.toggle("active", source === "marge");
-        el.approxCoef.classList.toggle("active", source === "marge");
         el.checkCoef.classList.toggle("active", source === "coef");
-        el.approxMarge.classList.toggle("active", source === "coef");
       }
 
       function calculer() {
@@ -433,35 +341,27 @@
           navigator.share({ title: "Le CRI", url: window.location.href });
         } else {
           navigator.clipboard.writeText(window.location.href);
-          alert("Lien de l'outil copié !");
+          alert("Lien copié !");
         }
       }
 
       async function transmettreResultats() {
-        const text = `📘 *SIMULATION DE PRIX - Le CRI*
+        const text = `📘 *SIMULATION Le CRI*
 ---
 📊 *ANNONCE*
-• Achat : ${el.achat.value} € HT
-• Objectif Marge : ${el.marge.value} %
-• Objectif Coef : ${el.coef.value}
-• **PRIX CONSEILLÉ : ${el.resAnnonce.textContent}**
+• Achat : ${el.achat.value}€ HT
+• Marge cible : ${el.marge.value}%
+• Coef : ${el.coef.value}
+• *PRIX CONSEILLÉ : ${el.resAnnonce.textContent}*
 
-🤝 *NÉGOCIATION*
-• Remise : ${el.remise.value} %
-
-💰 *RÉSULTAT FINAL*
-• **PRIX DE VENTE : ${el.resVente.textContent}**
+💰 *VENTE (Remise ${el.remise.value}%)*
+• *PRIX FINAL : ${el.resVente.textContent}*
 • Marge réelle : ${el.resMargeFinale.textContent}
-• Coef. réel : ${el.resCoefFinal.textContent}
----
-_Calculateur Le CRI_`;
+• Coef réel : ${el.resCoefFinal.textContent}`;
 
         if (navigator.share) {
           try {
-            await navigator.share({
-              title: "Résultats Le CRI",
-              text: text,
-            });
+            await navigator.share({ title: "Résultats CRI", text: text });
           } catch (err) {
             copierTexte(text);
           }
@@ -472,9 +372,7 @@ _Calculateur Le CRI_`;
 
       function copierTexte(t) {
         navigator.clipboard.writeText(t);
-        alert(
-          "Récapitulatif copié ! Vous pouvez maintenant le coller dans WhatsApp ou un Mail.",
-        );
+        alert("Copié !");
       }
 
       [el.achat, el.marge, el.coef, el.remise].forEach((input) => {
