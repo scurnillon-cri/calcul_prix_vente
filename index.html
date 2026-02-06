@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculateur de prix – Le CRI</title>
+
+    <style>
+      :root {
+        --cri-navy: #1d3557;
+        --cri-blue: #3b82f6;
+        --cri-bg: #f1f5f9;
+        --cri-border: #e2e8f0;
+        --text-dark: #0f172a;
+        --text-soft: #64748b;
+        --input-bg: #f8fafc;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--cri-bg);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        color: var(--text-dark);
+      }
+
+      .main-header {
+        width: 100%;
+        max-width: 500px;
+        background-color: var(--cri-navy);
+        color: white;
+        padding: 25px;
+        border-radius: 16px 16px 0 0;
+        text-align: center;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .main-header h1 {
+        margin: 0;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+      .main-header p {
+        margin: 8px 0 0;
+        opacity: 0.8;
+        font-size: 0.85rem;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 500px;
+        background: white;
+        border-radius: 0 0 16px 16px;
+        padding: 30px 40px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--cri-border);
+        border-top: none;
+      }
+
+      .section {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed var(--cri-border);
+      }
+      .section:last-of-type {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .section-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--cri-blue);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+        gap: 10px;
+      }
+      label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        flex: 1;
+      }
+
+      .input-wrapper {
+        position: relative;
+        width: 140px;
+        display: flex;
+        align-items: center;
+      }
+
+      .unit-tag {
+        position: absolute;
+        right: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-soft);
+        pointer-events: none;
+      }
+
+      input,
+      .result {
+        width: 100%;
+        padding: 10px 30px 10px 14px;
+        text-align: right;
+        border-radius: 8px;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      input {
+        border: 1px solid var(--cri-border);
+        background: var(--input-bg);
+        color: var(--cri-navy);
+      }
+      input:focus {
+        outline: none;
+        border-color: var(--cri-blue);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .result-main {
+        background: var(--cri-navy);
+        color: white;
+        border: none;
+        padding-right: 14px;
+      }
+      .result-soft {
+        background: #f1f5f9;
+        color: var(--cri-navy);
+        border: 1px solid var(--cri-border);
+        padding-right: 14px;
+      }
+
+      .symbol {
+        position: absolute;
+        left: calc(100% + 8px);
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .symbol.active {
+        opacity: 1;
+      }
+      .check {
+        color: #22c55e;
+      }
+      .approx {
+        color: var(--text-soft);
+      }
+
+      .action-area {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 25px;
+      }
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .btn-share {
+        background: #f1f5f9;
+        color: var(--cri-navy);
+        border: 1px solid var(--cri-border);
+      }
+      .btn-send {
+        background: var(--cri-blue);
+        color: white;
+      }
+
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+      }
+      .footer-brand {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--cri-navy);
+      }
+      .footer-links {
+        margin-top: 12px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        font-size: 0.8rem;
+      }
+      .footer-links a {
+        color: var(--cri-blue);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      @media (max-width: 480px) {
+        .main-header,
+        .container {
+          width: 100%;
+          border-radius: 0;
+        }
+        .row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+        .input-wrapper {
+          width: 100%;
+        }
+        input,
+        .result {
+          text-align: left;
+        }
+        .symbol {
+          display: none;
+        }
+        .action-area {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main-header">
+      <h1>📘 CALCULATEUR DE PRIX</h1>
+      <p>Référentiel par Produit & Aide au Chiffrage</p>
+    </div>
+
+    <div class="container">
+      <div class="section">
+        <div class="section-title">📊 Prix d'annonce</div>
+        <div class="row">
+          <label for="achat">Prix d’achat (€ HT)</label>
+          <div class="input-wrapper">
+            <input type="text" id="achat" value="1000" />
+            <span class="unit-tag">€</span>
+          </div>
+        </div>
+        <div class="row">
+          <label for="margeInput">Marge</label>
+          <div class="input-wrapper">
+            <input type="text" id="margeInput" placeholder="45" />
+            <span class="unit-tag">%</span>
+            <span class="symbol check" id="checkMarge">✔</span>
+            <span class="symbol approx" id="approxMarge">≈</span>
+          </div>
+        </div>
+        <div class="row">
+          <label for="coefInput">Coef.</label>
+          <div class="input-wrapper">
+            <input type="text" id="coefInput" placeholder="1.82" />
+            <span class="symbol check" id="checkCoef">✔</span>
+            <span class="symbol approx" id="approxCoef">≈</span>
+          </div>
+        </div>
+        <div class="row">
+          <label>Prix d'annonce conseillé</label>
+          <div class="input-wrapper">
+            <div class="result result-main" id="prixAnnonce">0.00 €</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🤝 Négociation</div>
+        <div class="row">
+          <label for="remise">Remise accordée</label>
+          <div class="input-wrapper">
+            <input type="text" id="remise" value="10" />
+            <span class="unit-tag">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">💰 Résultat de la vente</div>
+        <div class="row">
+          <label>Marge</label>
+          <div class="input-wrapper">
+            <div class="result result-soft" id="margeFinale">0 %</div>
+          </div>
+        </div>
+        <div class="row">
+          <label>Coef. réel</label>
+          <div class="input-wrapper">
+            <div class="result result-soft" id="coefFinal">0.00</div>
+          </div>
+        </div>
+        <div class="row">
+          <label>Prix de vente</label>
+          <div class="input-wrapper">
+            <div class="result result-main" id="prixVente">0.00 €</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-area">
+        <button class="btn btn-share" onclick="partagerOutil()">
+          🔗 Partager l'outil
+        </button>
+        <button class="btn btn-send" onclick="transmettreResultats()">
+          📤 Transmettre
+        </button>
+      </div>
+
+      <div class="footer">
+        <div class="footer-brand">Powered by Le CRI</div>
+        <div class="footer-links">
+          <a href="mailto:contact@cri-leclub.com">Contact</a>
+          <a href="https://www.linkedin.com/company/cri-leclub/" target="_blank"
+            >LinkedIn</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let source = "marge";
+      const el = {
+        achat: document.getElementById("achat"),
+        marge: document.getElementById("margeInput"),
+        coef: document.getElementById("coefInput"),
+        remise: document.getElementById("remise"),
+        resAnnonce: document.getElementById("prixAnnonce"),
+        resVente: document.getElementById("prixVente"),
+        resMargeFinale: document.getElementById("margeFinale"),
+        resCoefFinal: document.getElementById("coefFinal"),
+        checkMarge: document.getElementById("checkMarge"),
+        checkCoef: document.getElementById("checkCoef"),
+        approxMarge: document.getElementById("approxMarge"),
+        approxCoef: document.getElementById("approxCoef"),
+      };
+
+      function cleanValue(val) {
+        let cleaned = val.replace(",", ".");
+        return parseFloat(cleaned) || 0;
+      }
+
+      function updateUI(s) {
+        source = s;
+        el.checkMarge.classList.toggle("active", source === "marge");
+        el.approxCoef.classList.toggle("active", source === "marge");
+        el.checkCoef.classList.toggle("active", source === "coef");
+        el.approxMarge.classList.toggle("active", source === "coef");
+      }
+
+      function calculer() {
+        const achat = cleanValue(el.achat.value);
+        const remise = cleanValue(el.remise.value);
+        let margeInit = cleanValue(el.marge.value);
+        let coefInit = cleanValue(el.coef.value);
+        let coefExact = 1;
+
+        if (source === "marge") {
+          if (margeInit >= 100) margeInit = 99.99;
+          coefExact = 1 / (1 - margeInit / 100);
+          el.coef.value = coefExact.toFixed(2);
+        } else {
+          if (coefInit <= 0) coefInit = 1;
+          coefExact = coefInit;
+          margeInit = (1 - 1 / coefExact) * 100;
+          el.marge.value = margeInit.toFixed(1);
+        }
+
+        const prixAnnonce = achat * coefExact;
+        const prixVente = prixAnnonce * (1 - remise / 100);
+        const margePctVente =
+          prixVente > 0 ? ((prixVente - achat) / prixVente) * 100 : 0;
+        const coefFinal = achat > 0 ? prixVente / achat : 0;
+
+        const fmt = (v) =>
+          v.toLocaleString("fr-FR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) + " €";
+
+        el.resAnnonce.textContent = fmt(prixAnnonce);
+        el.resVente.textContent = fmt(prixVente);
+        el.resMargeFinale.textContent = margePctVente.toFixed(1) + " %";
+        el.resCoefFinal.textContent = coefFinal.toFixed(2);
+      }
+
+      function partagerOutil() {
+        if (navigator.share) {
+          navigator.share({ title: "Le CRI", url: window.location.href });
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          alert("Lien de l'outil copié !");
+        }
+      }
+
+      async function transmettreResultats() {
+        const text = `📘 *SIMULATION DE PRIX - Le CRI*
+---
+📊 *ANNONCE*
+• Achat : ${el.achat.value} € HT
+• Objectif Marge : ${el.marge.value} %
+• Objectif Coef : ${el.coef.value}
+• **PRIX CONSEILLÉ : ${el.resAnnonce.textContent}**
+
+🤝 *NÉGOCIATION*
+• Remise : ${el.remise.value} %
+
+💰 *RÉSULTAT FINAL*
+• **PRIX DE VENTE : ${el.resVente.textContent}**
+• Marge réelle : ${el.resMargeFinale.textContent}
+• Coef. réel : ${el.resCoefFinal.textContent}
+---
+_Calculateur Le CRI_`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: "Résultats Le CRI",
+              text: text,
+            });
+          } catch (err) {
+            // En cas d'erreur ou d'annulation sur certains navigateurs
+            copierTexte(text);
+          }
+        } else {
+          copierTexte(text);
+        }
+      }
+
+      function copierTexte(t) {
+        navigator.clipboard.writeText(t);
+        alert(
+          "Récapitulatif copié ! Vous pouvez maintenant le coller dans WhatsApp ou un Mail.",
+        );
+      }
+
+      [el.achat, el.marge, el.coef, el.remise].forEach((input) => {
+        input.addEventListener("input", (e) => {
+          if (e.target === el.marge) updateUI("marge");
+          if (e.target === el.coef) updateUI("coef");
+          calculer();
+        });
+      });
+
+      el.marge.value = "45";
+      updateUI("marge");
+      calculer();
+    </script>
+  </body>
+</html>
